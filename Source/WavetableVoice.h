@@ -1,11 +1,12 @@
 #pragma once
 
 #include "JuceHeader.h"
+#include "PluginProcessor.h"
 
 class WavetableVoice : public juce::SynthesiserVoice
 {
 public:
-    WavetableVoice(const std::vector<float>& waveTable);
+    WavetableVoice(BasicSynthAudioProcessor&, const std::vector<float>& waveTable);
     
     bool canPlaySound(juce::SynthesiserSound* sound) override;
     void startNote(int midiNoteNumber, float velocity, juce::SynthesiserSound* sound, int currentPitchWheelPosition) override;
@@ -22,4 +23,6 @@ private:
     float index = 0.f;
     float indexIncrement = 0.f;
     bool playing = false;
+    
+    BasicSynthAudioProcessor& audioProcessor;
 };

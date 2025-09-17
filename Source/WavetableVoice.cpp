@@ -1,8 +1,8 @@
 #include "WavetableVoice.h"
 #include <cmath>
 
-WavetableVoice::WavetableVoice(const std::vector<float>& wt)
-    : waveTable(wt)
+WavetableVoice::WavetableVoice(BasicSynthAudioProcessor& p, const std::vector<float>& wt)
+    : waveTable(wt), audioProcessor(p)
 {}
 
 bool WavetableVoice::canPlaySound(juce::SynthesiserSound* sound)
@@ -27,13 +27,15 @@ void WavetableVoice::stopNote(float velocity, bool allowTailOff)
 void WavetableVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int startSample, int numSamples)
 {
     if (!playing) return;
-
+    
     auto* left = outputBuffer.getWritePointer(0, startSample);
     auto* right = outputBuffer.getNumChannels() > 1 ? outputBuffer.getWritePointer(1, startSample) : nullptr;
+    
+    float gain = audioProcessor.apvts.getRawParameterValue("gain") -> load();
 
     for (int i = 0; i < numSamples; ++i)
     {
-        float sample = getSample();
+        float sample = getSample() * gain;
 
         left[i] += sample;
         if (right) right[i] += sample;

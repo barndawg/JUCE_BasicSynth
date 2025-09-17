@@ -104,7 +104,7 @@ void BasicSynthAudioProcessor::prepareToPlay (double sampleRate, int)
     synth.clearSounds();
 
     for (int i = 0; i < 8; ++i) // 8-voice polyphony
-        synth.addVoice(new WavetableVoice(waveTable));
+        synth.addVoice(new WavetableVoice(*this, waveTable));
 
     synth.addSound(new WavetableSound());
     synth.setCurrentPlaybackSampleRate(sampleRate);

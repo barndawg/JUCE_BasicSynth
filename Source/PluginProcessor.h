@@ -56,6 +56,7 @@ public:
     
     //==============================================================================
     juce::AudioProcessorValueTreeState apvts;
+    juce::AudioProcessorValueTreeState& getState() { return apvts; }
     
 private:
     juce::AudioProcessorValueTreeState::ParameterLayout createParameters();
