@@ -3,7 +3,6 @@
 std::vector<float> generateSineWavetable()
 {
     std::vector<float> sineWt = std::vector<float>(WT_SIZE);
-    std::vector<
     for (auto i = 0; i < WT_SIZE; ++i)
         sineWt[i] = std::sinf(2 * PI * static_cast<float>(i) / WT_SIZE);
     

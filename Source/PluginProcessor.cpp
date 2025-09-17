@@ -184,7 +184,18 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 juce::AudioProcessorValueTreeState::ParameterLayout BasicSynthAudioProcessor::createParameters()
 {
     return {
-        std::make_unique<juce::AudioParameterChoice>("waveform", "Waveform", juce::StringArray{"Sine", "Saw", "Tri"}, 0),
-        std::make_unique<juce::AudioParameterFloat>("gain", "Gain", 0.f, 1.f, 0.8f)
+        std::make_unique<juce::AudioParameterChoice>(
+            juce::ParameterID{"waveform", 1},
+            "Waveform",
+            juce::StringArray{"Sine", "Saw", "Tri"},
+            0
+        ),
+        std::make_unique<juce::AudioParameterFloat>(
+            juce::ParameterID{"gain", 1},
+            "Gain",
+            juce::NormalisableRange<float>(0.f, 1.f),
+            0.8f
+        )
     };
 }
+
