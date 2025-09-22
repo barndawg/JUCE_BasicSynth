@@ -6,7 +6,7 @@
 class WavetableVoice : public juce::SynthesiserVoice
 {
 public:
-    WavetableVoice(BasicSynthAudioProcessor&, const std::vector<float>& waveTable);
+    WavetableVoice(BasicSynthAudioProcessor&, std::vector<float>& sint, std::vector<float>& sawt, std::vector<float>& trit);
     
     bool canPlaySound(juce::SynthesiserSound* sound) override;
     void startNote(int midiNoteNumber, float velocity, juce::SynthesiserSound* sound, int currentPitchWheelPosition) override;
@@ -16,13 +16,35 @@ public:
     void controllerMoved(int controllerNumber, int newControllerValue) override {}
 
 private:
-    float getSample();
+    BasicSynthAudioProcessor& audioProcessor;
     
-    std::vector<float> waveTable;
-    double sampleRate = 44100.0;
+    // Getter functions
+    float getSample();
+    float getParam(const juce::String& paramID) const;
+    
+    // Wavetable types
+    std::vector<float>& sineTable;
+    std::vector<float>& sawTable;
+    std::vector<float>& triTable;
+    
+    // Parameters
+    float param_gain = 1.f;
+    int param_waveform = 1;
+    
+    // Playback stuff
+    int tableSize = 512;
+    double sampleRate = 44100.f;
     float index = 0.f;
     float indexIncrement = 0.f;
     bool playing = false;
     
-    BasicSynthAudioProcessor& audioProcessor;
+    // Envelope
+    enum EnvelopePhase { Idle, Attack, Sustain, Release };
+    
+    EnvelopePhase envelopePhase = Idle;
+    float envelopeValue = 0.f;
+    float attackTime = 0.01f;
+    float releaseTime = 0.2f;
+    float attackIncrement = 0.f;
+    float releaseIncrement = 0.f;
 };

@@ -62,7 +62,10 @@ private:
     juce::AudioProcessorValueTreeState::ParameterLayout createParameters();
     
     juce::Synthesiser synth;
-    std::vector<float> waveTable;
+    
+    std::vector<float> sineTable;
+    std::vector<float> sawTable;
+    std::vector<float> triTable;
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BasicSynthAudioProcessor)
 };

@@ -99,12 +99,15 @@ void BasicSynthAudioProcessor::changeProgramName (int index, const juce::String&
 //==============================================================================
 void BasicSynthAudioProcessor::prepareToPlay (double sampleRate, int)
 {
-    waveTable = generateSawWavetable();
+    sineTable = generateSineWavetable();
+    sawTable = generateSawWavetable();
+    triTable = generateTriWavetable();
+    
     synth.clearVoices();
     synth.clearSounds();
 
     for (int i = 0; i < 8; ++i) // 8-voice polyphony
-        synth.addVoice(new WavetableVoice(*this, waveTable));
+        synth.addVoice(new WavetableVoice(*this, sineTable, sawTable, triTable));
 
     synth.addSound(new WavetableSound());
     synth.setCurrentPlaybackSampleRate(sampleRate);
@@ -181,6 +184,7 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
     return new BasicSynthAudioProcessor();
 }
 
+//==============================================================================
 juce::AudioProcessorValueTreeState::ParameterLayout BasicSynthAudioProcessor::createParameters()
 {
     return {

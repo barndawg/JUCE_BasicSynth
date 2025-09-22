@@ -25,10 +25,12 @@ public:
     void resized() override;
 
 private:
+    juce::ComboBox waveformMenu;
     juce::Slider gainSlider;
     
     BasicSynthAudioProcessor& audioProcessor;
     
+    juce::AudioProcessorValueTreeState::ComboBoxAttachment waveformMenuAttachment;
     juce::AudioProcessorValueTreeState::SliderAttachment gainSliderAttachment;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BasicSynthAudioProcessorEditor)

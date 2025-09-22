@@ -29,7 +29,7 @@ std::vector<float> generateSawWavetable()
     return normaliseWavetable(sawWt);
 }
 
-std::vector<float> generateTriangleWavetable()
+std::vector<float> generateTriWavetable()
 {
     constexpr auto NUM_HARMONICS = WT_SIZE / 3;
     std::vector<float> triWt(WT_SIZE, 0.f);

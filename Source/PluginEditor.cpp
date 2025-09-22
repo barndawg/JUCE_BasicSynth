@@ -11,8 +11,14 @@
 
 //==============================================================================
 BasicSynthAudioProcessorEditor::BasicSynthAudioProcessorEditor (BasicSynthAudioProcessor& p)
-    : AudioProcessorEditor (&p), audioProcessor (p), gainSliderAttachment (audioProcessor.getState(), "gain", gainSlider)
+    : AudioProcessorEditor (&p), audioProcessor (p), waveformMenuAttachment(audioProcessor.getState(), "waveform", waveformMenu), gainSliderAttachment (audioProcessor.getState(), "gain", gainSlider)
 {
+    waveformMenu.addItem("Sine", 1);
+    waveformMenu.addItem("Saw", 2);
+    waveformMenu.addItem("Triangle", 3);
+    waveformMenu.setSelectedId(1);
+    addAndMakeVisible(waveformMenu);
+    
     gainSlider.setSliderStyle (juce::Slider::SliderStyle::RotaryVerticalDrag);
     gainSlider.setTextBoxStyle (juce::Slider::TextBoxBelow, true, 50, 25);
     addAndMakeVisible (gainSlider);
@@ -33,5 +39,10 @@ void BasicSynthAudioProcessorEditor::paint (juce::Graphics& g)
 
 void BasicSynthAudioProcessorEditor::resized()
 {
-    gainSlider.setBounds (getWidth() / 2 - 100, getHeight() / 2 - 100, 200, 200);
+    float width = getWidth();
+    float height = getHeight();
+    
+    waveformMenu.setBounds (width*0.5 - width*0.2, height*0.05, width*0.4, height*0.1);
+    
+    gainSlider.setBounds (width*0.5 - width*0.4, height*0.25, width*0.8, height*0.5);
 }
